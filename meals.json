@@ -1,0 +1,154 @@
+[
+	{
+		"id": 1,
+		"mealName": "Jajecznica + sałatka",
+		"date": 1701527431,
+		"dishes": [
+			{
+				"id": "1701527432",
+				"dishName": "Jajecznica",
+				"products": [
+					{
+						"id": "1701527432-1-1",
+						"productName": "Jajka",
+						"amount": 283,
+						"proteins": 35.4,
+						"carbo": 1.7,
+						"fats": 27.4,
+						"calories": 395.4
+					},
+					{
+						"id": "1701527432-1-2",
+						"productName": "Bekon",
+						"amount": 50,
+						"proteins": 8,
+						"carbo": 0.3,
+						"fats": 11.5,
+						"calories": 136.5
+					}
+				]
+			},
+			{
+				"id": "1701527433",
+				"dishName": "Sałatka",
+				"products": [
+					{
+						"id": "1701527433-2-1",
+						"productName": "Feta",
+						"amount": 135,
+						"proteins": 17.6,
+						"carbo": 9.4,
+						"fats": 16.2,
+						"calories": 253.8
+					},
+					{
+						"id": "1701527433-2-2",
+						"productName": "Oliwa z oliwek",
+						"amount": 15,
+						"proteins": 0,
+						"carbo": 0,
+						"fats": 13.3,
+						"calories": 122.8
+					},
+					{
+						"id": "1701527433-2-3",
+						"productName": "Chrupiąca sałatka - Bakalland",
+						"amount": 22,
+						"proteins": 5.1,
+						"carbo": 3.5,
+						"fats": 10.3,
+						"calories": 127.4
+					},
+					{
+						"id": "1701527433-2-4",
+						"productName": "Pomidorki koktajlowe",
+						"amount": 200,
+						"proteins": 1.8,
+						"carbo": 7.8,
+						"fats": 0.4,
+						"calories": 41.8
+					}
+				]
+			}
+		]
+	},
+	{
+		"id": 2,
+		"mealName": "Serek wiejski + sałatka + orzeszki",
+		"date": 1701549031,
+		"dishes": [
+			{
+				"id": "1701549032",
+				"dishName": "Serek wiejski",
+				"products": [
+					{
+						"id": "1701549033-1-1",
+						"productName": "Serek wiejski",
+						"amount": 200,
+						"proteins": 22,
+						"carbo": 4,
+						"fats": 10,
+						"calories": 194
+					}
+				]
+			},
+			{
+				"id": "1701549033",
+				"dishName": "Sałatka",
+				"products": [
+					{
+						"id": "1701549033-2-1",
+						"productName": "Feta",
+						"amount": 135,
+						"proteins": 17.6,
+						"carbo": 9.4,
+						"fats": 16.2,
+						"calories": 253.8
+					},
+					{
+						"id": "1701549033-2-2",
+						"productName": "Oliwa z oliwek",
+						"amount": 23,
+						"proteins": 0,
+						"carbo": 0,
+						"fats": 20.5,
+						"calories": 188.4
+					},
+					{
+						"id": "1701549033-2-3",
+						"productName": "Chrupiąca sałatka - Bakalland",
+						"amount": 22,
+						"proteins": 5.1,
+						"carbo": 3.5,
+						"fats": 10.3,
+						"calories": 127.4
+					},
+					{
+						"id": "1701549033-2-4",
+						"productName": "Pomidorki koktajlowe",
+						"amount": 200,
+						"proteins": 1.8,
+						"carbo": 7.8,
+						"fats": 0.4,
+						"calories": 41.8
+					}
+				]
+			},
+			{
+				"id": "1701549034",
+				"dishName": "Orzeszki laskowe",
+				"products": [
+					{
+						"id": "1701549034-3-1",
+						"productName": "Orzeszki laskowe - Bakallino",
+						"amount": 50,
+						"proteins": 7,
+						"carbo": 4.1,
+						"fats": 30,
+						"calories": 325
+					}
+				]
+			}
+		]
+	}
+]
