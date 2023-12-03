@@ -1,8 +1,13 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import type { Meal, Summary } from './types';
+	import type { AggregatedMeal, Meal, Summary } from './types';
+	import { parseTimestampFromMsToDate } from '../utils/dates.utils';
+	import { dates } from './utils';
 
-	$: meals = (getContext('mealsContext') as Meal[]) ?? [];
+	const meals = (getContext('mealsContext') as Meal[]) ?? [];
+
+
+	let displayList: AggregatedMeal[] = []
 
 	let totalValues: Summary = {
 		proteins: '0',
@@ -11,6 +16,13 @@
 		calories: '0'
 	};
 
+	const getAllDates = (meal: Meal) => {
+		const dateString = parseTimestampFromMsToDate(meal.date);
+		dates.update(date => date.add(dateString));
+
+		return $dates;
+	}
+
 	const getTotalValues = (meals: Meal[]) => {
 		let proteins = 0;
 		let carbo = 0;
@@ -18,6 +30,7 @@
 		let calories = 0;
 
 		meals.forEach((meal) => {
+			dates.set(getAllDates(meal));
 			meal.dishes.forEach((dish) =>
 				dish.products.forEach((product) => {
 					proteins += product.proteins;
@@ -36,9 +49,25 @@
 		};
 	};
 
+	const getAggregatedMeals = (meals: Meal[]): AggregatedMeal[] => {
+		const mealsAggregatedByDate: AggregatedMeal[] = [];
+		
+		$dates.forEach((date) => {
+			let mealsWithSameDate = meals.filter(mealToFilter => parseTimestampFromMsToDate(mealToFilter.date) === date)
+
+			mealsAggregatedByDate.push({
+				[date]: mealsWithSameDate 
+			})
+		})
+
+		return mealsAggregatedByDate;
+	}
+
 	$: if (meals) {
 		totalValues = getTotalValues(meals);
+		displayList = getAggregatedMeals(meals);
 	}
+
 </script>
 
 <div>
@@ -60,7 +89,7 @@
 		{/each}
 	{/each}
 </div>
-
+<div>~~~~~~~~~~~~~~~~~~~~~~</div>
 <div>Totals:</div>
 <div>Protein: {totalValues.proteins}</div>
 <div>Carbo: {totalValues.carbo}</div>
