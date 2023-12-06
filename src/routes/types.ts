@@ -27,3 +27,7 @@ export interface Summary {
 	fats: string;
 	calories: string;
 }
+
+export interface AggregatedMeals {
+	[key: string]: Meal[];
+}

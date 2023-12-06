@@ -1,0 +1,12 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	--cbg1: #fa8072;
+	--cbg2: #ff6f61;
+	--cbg3: #e74c3c;
+	--fc: white;
+}
