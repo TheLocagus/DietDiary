@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import type { AggregatedMeal, Meal, Summary } from './types';
+	import type { AggregatedMeals, Meal, Summary } from './types';
 	import { parseTimestampFromMsToDate } from '../utils/dates.utils';
 	import { dates } from './utils';
+	import DaySection from './components/DaySection/DaySection.svelte';
 
 	const meals = (getContext('mealsContext') as Meal[]) ?? [];
 
-
-	let displayList: AggregatedMeal[] = []
+	let displayList: AggregatedMeals = {};
 
 	let totalValues: Summary = {
 		proteins: '0',
@@ -18,10 +18,10 @@
 
 	const getAllDates = (meal: Meal) => {
 		const dateString = parseTimestampFromMsToDate(meal.date);
-		dates.update(date => date.add(dateString));
+		dates.update((date) => date.add(dateString));
 
 		return $dates;
-	}
+	};
 
 	const getTotalValues = (meals: Meal[]) => {
 		let proteins = 0;
@@ -49,44 +49,31 @@
 		};
 	};
 
-	const getAggregatedMeals = (meals: Meal[]): AggregatedMeal[] => {
-		const mealsAggregatedByDate: AggregatedMeal[] = [];
-		
-		$dates.forEach((date) => {
-			let mealsWithSameDate = meals.filter(mealToFilter => parseTimestampFromMsToDate(mealToFilter.date) === date)
+	const getAggregatedMeals = (meals: Meal[]): AggregatedMeals => {
+		let mealsAggregatedByDate: AggregatedMeals = {};
 
-			mealsAggregatedByDate.push({
-				[date]: mealsWithSameDate 
-			})
-		})
+		$dates.forEach((date) => {
+			let mealsWithSameDate = meals.filter(
+				(mealToFilter) => parseTimestampFromMsToDate(mealToFilter.date) === date
+			);
+
+			const agregatedToParse = Object.entries(mealsAggregatedByDate);
+			agregatedToParse.push([date, mealsWithSameDate]);
+			mealsAggregatedByDate = Object.fromEntries(agregatedToParse);
+		});
 
 		return mealsAggregatedByDate;
-	}
+	};
 
 	$: if (meals) {
 		totalValues = getTotalValues(meals);
 		displayList = getAggregatedMeals(meals);
 	}
-
 </script>
 
 <div>
-	{#each meals as meal, i}
-		<small>{meal.date}</small>
-		<h1>Posiłek {i + 1} - {meal.mealName}</h1>
-		{#each meal.dishes as dish}
-			<h2>{dish.dishName}</h2>
-			{#each dish.products as product}
-				{@const { productName, amount, calories, carbo, fats, proteins } = product}
-				<div>{productName}</div>
-				<div>Białko: {proteins} g</div>
-				<div>Węglowodany: {carbo} g</div>
-				<div>Tłuszcze: {fats} g</div>
-				<div>Kalorie: {calories} kcal</div>
-				<div>Ilość: {amount}g</div>
-				<br />
-			{/each}
-		{/each}
+	{#each Object.entries(displayList).reverse() as [day, meals], i}
+		<DaySection {day} {meals} index={i} />
 	{/each}
 </div>
 <div>~~~~~~~~~~~~~~~~~~~~~~</div>

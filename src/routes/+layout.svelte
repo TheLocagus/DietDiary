@@ -6,12 +6,12 @@
 	let isAddMealModalOpen = false;
 
 	interface NewProduct {
-		proteins: number,
-		carbo: number,
-		fats: number,
-		calories: number,
-		amount: number,
-		name: string,
+		proteins: number;
+		carbo: number;
+		fats: number;
+		calories: number;
+		amount: number;
+		name: string;
 	}
 
 	let newProduct: NewProduct = {
@@ -20,8 +20,8 @@
 		fats: 0,
 		calories: 0,
 		amount: 0,
-		name: '',
-	}
+		name: ''
+	};
 
 	const meals: Writable<Meal[]> = writable([]);
 
@@ -55,39 +55,39 @@
 
 	const addProduct = () => {
 		isAddMealModalOpen = true;
-	}
+	};
 
 	const addDish = () => {
 		const lastMeal = $meals[$meals.length - 1];
 		// const lastDish = lastMeal.dishes[lastMeal.dishes.length - 1];
-		
+
 		const newDish: Dish = {
 			id: new Date().getTime().toString(),
 			dishName: `Posiłek ${$meals.length} - danie ${lastMeal.dishes.length + 1}`,
-			products: [],
-		}
+			products: []
+		};
 
 		lastMeal.dishes = [...lastMeal.dishes, newDish];
 
 		$meals[$meals.length - 1].dishes = lastMeal.dishes;
 		$meals = $meals;
-	}
+	};
 
 	const addMeal = () => {
 		const newMeal: Meal = {
 			id: $meals.length + 1,
 			date: new Date().getTime(),
 			mealName: `Posiłek ${$meals.length + 1}`,
-			dishes: [],
+			dishes: []
 		};
 
 		$meals = [...$meals, newMeal];
-	}
+	};
 
 	const handleForm = (newProduct: NewProduct) => {
 		const lastMeal = $meals[$meals.length - 1];
 		const lastDish = lastMeal.dishes[lastMeal.dishes.length - 1];
-		
+
 		const product: Product = {
 			id: `${$meals.length} - ${lastMeal.dishes.length} - ${new Date().getTime()}`,
 			proteins: newProduct.proteins,
@@ -95,14 +95,14 @@
 			fats: newProduct.fats,
 			calories: newProduct.calories,
 			amount: newProduct.amount,
-			productName: newProduct.name,
-		}
+			productName: newProduct.name
+		};
 
 		lastDish.products = [...lastDish.products, product];
 
 		$meals[$meals.length - 1].dishes[lastMeal.dishes.length - 1] = lastDish;
-		$meals = $meals; 
-	}
+		$meals = $meals;
+	};
 </script>
 
 <section class="data-buttons">
@@ -114,16 +114,15 @@
 </section>
 
 {#if isAddMealModalOpen}
-<div class="inputs">
-	<input type="text" bind:value={newProduct.name} placeholder="Name">
-	<input type="number" bind:value={newProduct.proteins} placeholder="proteins">
-	<input type="number" bind:value={newProduct.carbo} placeholder="carbo">
-	<input type="number" bind:value={newProduct.fats} placeholder="fats">
-	<input type="number" bind:value={newProduct.calories} placeholder="calories">
-	<input type="number" bind:value={newProduct.amount} placeholder="amount">
-	<button on:click={() => handleForm(newProduct)}>Dodaj</button>
-</div>
-
+	<div class="inputs">
+		<input type="text" bind:value={newProduct.name} placeholder="Name" />
+		<input type="number" bind:value={newProduct.proteins} placeholder="proteins" />
+		<input type="number" bind:value={newProduct.carbo} placeholder="carbo" />
+		<input type="number" bind:value={newProduct.fats} placeholder="fats" />
+		<input type="number" bind:value={newProduct.calories} placeholder="calories" />
+		<input type="number" bind:value={newProduct.amount} placeholder="amount" />
+		<button on:click={() => handleForm(newProduct)}>Dodaj</button>
+	</div>
 {/if}
 
 {#key $meals}
@@ -131,6 +130,10 @@
 {/key}
 
 <style>
+	:global(body) {
+		background-color: var(--cbg1);
+	}
+
 	.inputs {
 		display: flex;
 		flex-direction: column;
