@@ -5,7 +5,7 @@
     export let dish: Dish;
 </script> 
 
-<div class="wrapper">
+<div class="wrapper" >
     <h2>{dish.dishName}</h2>
     <div class="products">
 		{#each dish.products as product}

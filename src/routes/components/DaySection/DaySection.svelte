@@ -62,9 +62,9 @@ Day {daysCount - index} <small>{day}</small>
 		justify-content: space-evenly;
 		margin: 0 auto;
 		width: 60%;
-		background-color: #87ceeb;
-		border: 1px solid #add8e6;
-		color: navy;
+		background-color: var(--supp-bgc-dark);
+		border: 1px solid var(--supp-bgc-light);
+		color: var(--supp-fc);
 		font-family: arial;
 		padding: 10px 0;
 		border-radius: 10px;
