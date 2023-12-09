@@ -25,6 +25,8 @@
         flex-basis: 33%;
         margin-bottom: 16px;
         gap: 5px;
+        flex-grow: 1;
+        word-break: break-all;
     }
 
     .border {
