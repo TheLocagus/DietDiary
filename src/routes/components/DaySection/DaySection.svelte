@@ -5,6 +5,7 @@
 	export let day: string;
 	export let meals: Meal[];
 	export let index: number;
+	export let daysCount: number;
 
 	let sum = {
 		proteins: '0',
@@ -39,17 +40,37 @@
 	$: if (meals) {
 		sum = countDayMacro(meals);
 	}
+
 </script>
 
-Day {index + 1} <small>{day}</small>
-{#each meals as meal, i}
-	<MealSection {meal} index={i} />
+Day {daysCount - index} <small>{day}</small>
+{#each meals as meal}
+	<MealSection {meal} />
 {/each}
 
-<div>~~~~~~~~~~</div>
-<div>{day}</div>
-<div>Protein: {sum.proteins}</div>
-<div>Carbo: {sum.carbo}</div>
-<div>Fats: {sum.fats}</div>
-<div>Calories: {sum.calories}</div>
-<div>~~~~~~~~~~</div>
+<div class="daily-count">
+	<div>{day}</div>
+	<div>Proteins: <span>{sum.proteins}</span>g</div>
+	<div>Carbo: <span>{sum.carbo}</span>g</div>
+	<div>Fats: <span>{sum.fats}</span>g</div>
+	<div>Calories: <span>{sum.calories}</span>kcal</div>
+</div>
+
+<style>
+	.daily-count {
+		display: flex;
+		justify-content: space-evenly;
+		margin: 0 auto;
+		width: 60%;
+		background-color: #87ceeb;
+		border: 1px solid #add8e6;
+		color: navy;
+		font-family: arial;
+		padding: 10px 0;
+		border-radius: 10px;
+	}
+
+	.daily-count span {
+		font-weight: 700;
+	}
+</style>

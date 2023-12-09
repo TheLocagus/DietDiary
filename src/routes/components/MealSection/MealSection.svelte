@@ -3,11 +3,10 @@
 	import DishSection from '../DishSection/DishSection.svelte';
 
 	export let meal: Meal;
-	export let index: number;
 </script>
 
 <div class="wrapper">
-	<h1>Posiłek {index + 1} - {meal.mealName}</h1>
+	<h1>{meal.mealName}</h1>
 	<div class="dishes">
 		{#each meal.dishes as dish}
 			<DishSection {dish}/>
@@ -29,6 +28,7 @@
 		border-radius: 5px;
 		padding: 5px 15px;
 		color: var(--fc);
+		box-shadow: 0 0 4px 2px var(--cbg3);
 	}
 
 	.dishes {

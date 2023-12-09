@@ -135,6 +135,7 @@
 	}
 
 	.inputs {
+		position: fixed;
 		display: flex;
 		flex-direction: column;
 		width: 200px;

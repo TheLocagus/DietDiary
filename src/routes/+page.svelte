@@ -73,7 +73,7 @@
 
 <div>
 	{#each Object.entries(displayList).reverse() as [day, meals], i}
-		<DaySection {day} {meals} index={i} />
+		<DaySection {day} {meals} index={i} daysCount={Object.keys(displayList).length}/>
 	{/each}
 </div>
 <div>~~~~~~~~~~~~~~~~~~~~~~</div>

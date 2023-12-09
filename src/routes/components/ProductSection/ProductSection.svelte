@@ -22,7 +22,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        flex-basis: 48%;
+        flex-basis: 33%;
         margin-bottom: 16px;
         gap: 5px;
     }
@@ -38,7 +38,6 @@
         margin-left: 10px;
         display: flex;
         flex-direction: column;
-        align-items: center;
     }
 
     .values div {
@@ -47,5 +46,10 @@
 
     .values div span {
         font-size: 0.85em;
+        font-weight: 400;
+    }
+
+    .values div {
+        font-weight: 700;
     }
 </style>
