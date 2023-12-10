@@ -5,11 +5,11 @@
 }
 
 html {
-	--cbg1: #fa8072;
-	--cbg2: #ff6f61;
-	--cbg3: #e74c3c;
+	--cbg1: #c2bebe;
+	--cbg2: #476651;
+	--cbg3: #8bb97fc9;
 	--fc: white;
-	--supp-bgc-light: #add8e6;
-	--supp-bgc-dark: #87ceeb;
-	--supp-fc: navy;
+	--supp-bgc-light: #2dc24d;
+	--supp-bgc-dark: #409172;
+	--supp-fc: white;
 }
