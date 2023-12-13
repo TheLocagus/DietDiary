@@ -14,11 +14,11 @@
 		<h1>{meal.mealName}</h1> 
 	</div>
 	{#if mealExpanded}
-	<div class="dishes" transition:slide>
-		{#each meal.dishes as dish (dish)}
-			<DishSection {dish}/>
-		{/each}
-	</div>
+		<div class="dishes" transition:slide>
+			{#each meal.dishes as dish (dish)}
+				<DishSection {dish}/>
+			{/each}
+		</div>	
 	{/if}
 	
 </div>
@@ -58,10 +58,13 @@
 	}
 
 	.dishes {
+		margin: 0 auto;
+		width: 80%;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		flex-wrap: wrap;
 		padding: 10px;
 		gap: 10px;
 	}
+
 </style>

@@ -129,6 +129,7 @@
 	<slot />
 {/key}
 
+
 <style>
 	:global(body) {
 		background-color: var(--cbg1);
@@ -141,4 +142,6 @@
 		width: 200px;
 		margin-bottom: 200px;
 	}
+
+	
 </style>

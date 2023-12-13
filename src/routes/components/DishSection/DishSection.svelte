@@ -18,7 +18,7 @@
     .wrapper {
         box-sizing: border-box;
         background-color: var(--cbg2);
-        flex-basis: 38%;
+        flex-basis: 48%;
         border-radius: 10px;
         border: 1px solid var(--cbg3);
         color: var(--fc);

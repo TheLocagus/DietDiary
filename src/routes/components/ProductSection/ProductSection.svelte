@@ -1,12 +1,15 @@
 <script lang="ts">
+	import Modal from "../../../components/Modal/Modal.svelte";
 	import type { Product } from "../../types";
 
     export let product: Product;
+
+    let open = false;
 </script>
 
 <div class="product">
     <div>
-        <div>{product.productName} ({product.amount}g)</div>
+        <div on:click={() => open = true}>{product.productName} ({product.amount}g)</div>
         <div class="border"/>
     </div>
     <div class="values">
@@ -16,6 +19,8 @@
         <div><span>Kalorie:</span> {product.calories} kcal</div>
     </div>
 </div>
+
+<Modal bind:open/>
 
 <style>
     .product {
