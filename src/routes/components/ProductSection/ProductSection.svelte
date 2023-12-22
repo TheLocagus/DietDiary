@@ -4,12 +4,15 @@
 
     export let product: Product;
 
-    let open = false;
+    let dialog: HTMLDialogElement;
+
 </script>
 
 <div class="product">
     <div>
-        <div on:click={() => open = true}>{product.productName} ({product.amount}g)</div>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div class="title" on:click={() => dialog.showModal()}>{product.productName} ({product.amount}g)</div>
         <div class="border"/>
     </div>
     <div class="values">
@@ -20,7 +23,7 @@
     </div>
 </div>
 
-<Modal bind:open/>
+<Modal bind:dialog/>
 
 <style>
     .product {
@@ -31,7 +34,10 @@
         margin-bottom: 16px;
         gap: 5px;
         flex-grow: 1;
-        word-break: break-all;
+    }
+
+    .title {
+        text-align: center;
     }
 
     .border {
