@@ -22,7 +22,6 @@
         border-radius: 10px;
         border: 1px solid var(--cbg3);
         color: var(--fc);
-        font-family: "arial";
         box-shadow: 0 0 2px 2px var(--cbg3);
     }
 
@@ -32,10 +31,10 @@
         padding: 10px 0;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
+        font-size: 1em;
     }
 
     .products {
-        display: flex;
         justify-content: center;
         flex-wrap: wrap;
         padding: 10px;

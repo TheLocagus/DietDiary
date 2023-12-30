@@ -5,12 +5,12 @@
 
 	export let meal: Meal;
 
-	let mealExpanded = true;
+	$: mealExpanded = true;
 </script>
 
 <div class="wrapper">
 	<div class="title">
-		<span role="button" tabindex="0" on:click={() => mealExpanded = !mealExpanded} on:keypress>{mealExpanded ? '-' : '+'}</span>
+		<button on:click={() => mealExpanded = !mealExpanded} on:keypress>{mealExpanded ? '-' : '+'}</button>
 		<h1>{meal.mealName}</h1> 
 	</div>
 	{#if mealExpanded}
@@ -26,9 +26,12 @@
 <style>
 	.wrapper {
 		background-color: var(--cbg1);
+		margin-bottom: 1.6em;
+
 	}
 
 	.title {
+		position: relative;
 		display: flex;
 		align-items: center;
 		margin: 0 auto;
@@ -45,21 +48,25 @@
 		margin-left: 10px;
 	}
 
-	.title span {
+	.title button {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: var(--supp-bgc-light);
 		color: var(--supp-fc);
-		border: 3px solid var(--cbg3);
+		border: 2px solid var(--supp-bgc-light);
+		background-color: inherit;
 		height: 20px;
 		width: 20px;
 		cursor: pointer;
+		border-radius: 4px;
+		transition: 0.2s;
+	}
+
+	.title button:hover {
+		background-color: var(--cbg3);
 	}
 
 	.dishes {
-		margin: 0 auto;
-		width: 80%;
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
