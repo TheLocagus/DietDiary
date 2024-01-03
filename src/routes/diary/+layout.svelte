@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from "svelte";
-	import type { AggregatedMeals } from "../types";
+	import type { AggregatedMeals, Meal } from "../types";
 	import { parseTimestampFromMsToDate } from "../../utils/dates.utils";
     import { page } from '$app/stores'
     import Calendar from 'svelte-material-icons/Calendar.svelte';
@@ -8,6 +8,29 @@
 
     $: aggregatedMeals = (getContext('aggregatedMealsContext') as AggregatedMeals) ?? {};
 
+    const getSummary = (meals: Meal[]) => {
+		const summary = meals.reduce((acc, curr) => {
+			curr.dishes.forEach(dish => {
+                dish.products.forEach(product => {
+                    // acc.proteins += product.proteins;
+				    // acc.carbo += product.carbo;
+				    // acc.fats += product.fats;
+                    acc.calories += product.calories;
+                })
+			})
+
+			return acc;
+		}, {
+			// proteins: 0,
+			// carbo: 0,
+			// fats: 0,
+			calories: 0,
+		});
+
+		const {calories} = summary;
+
+		return `${Number(calories.toFixed(1))}`;
+	}
 </script>
 
 <div class="diary-wrapper">
@@ -26,7 +49,7 @@
                             <div class="summary">
                                 <SilverwareForkKnife size={"10%"}/>
                                 <span>
-                                    2100 
+                                    {getSummary(meals)}
                                 </span>
                             </div> 
                         </div>
@@ -45,10 +68,28 @@
     }
 
     .days-list {
-        min-height: calc(100vh - 40px);
+        max-height: calc(100vh - 80px);
         width: var(--aside-width);
         background-color: var(--cbg3);
         border-radius: 10px;
+
+        overflow: auto;
+    }
+
+    .days-list::-webkit-scrollbar {
+        width: 5px;
+    }
+
+
+    .days-list::-webkit-scrollbar-track {
+        background-color: var(--cbg3);
+        margin: 12px 0;
+        border-radius: 5px;
+    }
+
+    .days-list::-webkit-scrollbar-thumb {
+        background-color: var(--cbg2);
+        border-radius: 5px;
     }
 
     ul {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import type { AggregatedMeals, Meal, Summary } from '../../types';
+	import type { AggregatedMeals, Meal } from '../../types';
 
 
     import type { PageData } from './$types';
@@ -10,12 +10,12 @@
 
 	$: aggregatedMeals = (getContext('aggregatedMealsContext') as AggregatedMeals) ?? [];
 
-	let totalValues: Summary = {
-		proteins: '0',
-		carbo: '0',
-		fats: '0',
-		calories: '0'
-	};
+	// let totalValues: Summary = {
+	// 	proteins: '0',
+	// 	carbo: '0',
+	// 	fats: '0',
+	// 	calories: '0'
+	// };
 
 	// const getTotalValues = (meals: Meal[]) => {
 	// 	let proteins = 0;
@@ -53,24 +53,40 @@
 		}
 	}
 
-
-	
 </script>
 
+{#key meals}
 <section>
 	<div>
 		{#if meals}
-		{#each meals as meal}
-			<MealSection {meal} />
-		{/each}
+			{#each meals as meal}
+				<MealSection {meal} />
+			{/each}
 		{/if}
 	</div>
 </section>
+{/key}
 
 <style>
 	section {
+		max-height: calc(100vh - 80px);
 		width: 100%;
 		margin: 0 10px;
+		overflow: auto;
 	}
+
+	section::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    section::-webkit-scrollbar-track {
+        background-color: #ccc;
+        border-radius: 5px;
+    }
+
+    section::-webkit-scrollbar-thumb {
+        background-color: var(--cbg2);
+        border-radius: 5px;
+    }
 </style>
 

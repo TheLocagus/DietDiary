@@ -3,6 +3,7 @@ export interface Meal {
 	mealName: string;
 	date: number;
 	dishes: Dish[];
+	expanded?: boolean;
 }
 
 export interface Dish {
