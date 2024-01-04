@@ -119,9 +119,9 @@
 	const getAggregatedMeals = (meals: Meal[]): AggregatedMeals => {
 		let mealsAggregatedByDate: AggregatedMeals = {};
 
-		meals.forEach(meal => {
+		meals.forEach((meal) => {
 			dates.set(getAllDates(meal));
-		})
+		});
 
 		$dates.forEach((date) => {
 			let mealsWithSameDate = meals.filter(
@@ -138,23 +138,23 @@
 	$: if (meals) {
 		// totalValues = getTotalValues(meals);
 		aggregatedMeals.set(getAggregatedMeals($meals));
-		setContext('aggregatedMealsContext', $aggregatedMeals)
+		setContext('aggregatedMealsContext', $aggregatedMeals);
 	}
 </script>
 
 <header>
-		<div class="name">
-			<span>Meal diary</span>
-		</div>
-		<div class="links">
-			<a href="/">Oblicz kalorie</a>
-			<a href="/diary/general">Historia</a>
-		</div>
-		<div class="additional-actions">
-			<a target="_blank" href="https://github.com/TheLocagus/DietDiary">
-				<Github />
-			</a>
-		</div>
+	<div class="name">
+		<span>Meal diary</span>
+	</div>
+	<div class="links">
+		<a href="/">Oblicz kalorie</a>
+		<a href="/diary/general">Historia</a>
+	</div>
+	<div class="additional-actions">
+		<a target="_blank" href="https://github.com/TheLocagus/DietDiary">
+			<Github />
+		</a>
+	</div>
 </header>
 
 <section class="data-buttons">
@@ -180,7 +180,6 @@
 {#key $meals}
 	<slot />
 {/key}
-
 
 <style>
 	:global(body) {
@@ -241,7 +240,6 @@
 	header .additional-actions :global(svg) {
 		width: 2em;
 		height: 2em;
-
 	}
 
 	.inputs {
@@ -251,6 +249,4 @@
 		width: 200px;
 		margin-bottom: 200px;
 	}
-
-	
 </style>

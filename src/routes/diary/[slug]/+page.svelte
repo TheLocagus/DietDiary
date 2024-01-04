@@ -2,10 +2,9 @@
 	import { getContext } from 'svelte';
 	import type { AggregatedMeals, Meal } from '../../types';
 
-
-    import type { PageData } from './$types';
+	import type { PageData } from './$types';
 	import MealSection from '../../components/MealSection/MealSection.svelte';
-	
+
 	export let data: PageData;
 
 	$: aggregatedMeals = (getContext('aggregatedMealsContext') as AggregatedMeals) ?? [];
@@ -45,26 +44,25 @@
 
 	let meals: Meal[] = [];
 
-	$: if(data){
-		if(data.id){
-			meals = aggregatedMeals[data.id]
+	$: if (data) {
+		if (data.id) {
+			meals = aggregatedMeals[data.id];
 		} else {
 			meals = [];
 		}
 	}
-
 </script>
 
 {#key meals}
-<section>
-	<div>
-		{#if meals}
-			{#each meals as meal}
-				<MealSection {meal} />
-			{/each}
-		{/if}
-	</div>
-</section>
+	<section>
+		<div>
+			{#if meals}
+				{#each meals as meal}
+					<MealSection {meal} />
+				{/each}
+			{/if}
+		</div>
+	</section>
 {/key}
 
 <style>
@@ -76,17 +74,16 @@
 	}
 
 	section::-webkit-scrollbar {
-        width: 6px;
-    }
+		width: 6px;
+	}
 
-    section::-webkit-scrollbar-track {
-        background-color: #ccc;
-        border-radius: 5px;
-    }
+	section::-webkit-scrollbar-track {
+		background-color: #ccc;
+		border-radius: 5px;
+	}
 
-    section::-webkit-scrollbar-thumb {
-        background-color: var(--cbg2);
-        border-radius: 5px;
-    }
+	section::-webkit-scrollbar-thumb {
+		background-color: var(--cbg2);
+		border-radius: 5px;
+	}
 </style>
-

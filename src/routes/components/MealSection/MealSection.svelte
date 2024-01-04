@@ -9,58 +9,62 @@
 	const SLIDE_DURATION_BY_CLICK = 250;
 
 	onMount(() => {
-		meal.expanded = meal.expanded ?? false;		
-	})
+		meal.expanded = meal.expanded ?? false;
+	});
 
 	const getSummary = () => {
-		const summary = meal.dishes.reduce((acc, curr) => {
-			curr.products.forEach(product => {
-				acc.proteins += product.proteins;
-				acc.carbo += product.carbo;
-				acc.fats += product.fats;
-				acc.calories += product.calories;
-			})
+		const summary = meal.dishes.reduce(
+			(acc, curr) => {
+				curr.products.forEach((product) => {
+					acc.proteins += product.proteins;
+					acc.carbo += product.carbo;
+					acc.fats += product.fats;
+					acc.calories += product.calories;
+				});
 
-			return acc;
-		}, {
-			proteins: 0,
-			carbo: 0,
-			fats: 0,
-			calories: 0,
-		});
+				return acc;
+			},
+			{
+				proteins: 0,
+				carbo: 0,
+				fats: 0,
+				calories: 0
+			}
+		);
 
-		const {proteins, carbo, fats, calories} = summary;
+		const { proteins, carbo, fats, calories } = summary;
 
-		return `${Number(proteins.toFixed(1))} / ${Number(carbo.toFixed(1))} / ${Number(fats.toFixed(1))} / ${Number(calories.toFixed(1))}`;
-	}
-
+		return `${Number(proteins.toFixed(1))} / ${Number(carbo.toFixed(1))} / ${Number(
+			fats.toFixed(1)
+		)} / ${Number(calories.toFixed(1))}`;
+	};
 </script>
 
 <div class="wrapper">
 	<div class="title">
-		<button on:click={() => {
-			meal.expanded = !meal.expanded;
-		}}>
+		<button
+			on:click={() => {
+				meal.expanded = !meal.expanded;
+			}}
+		>
 			{meal.expanded ? '-' : '+'}
 		</button>
-		<h1>{meal.mealName}</h1> 
+		<h1>{meal.mealName}</h1>
 		<span class="summary">({getSummary()})</span>
 	</div>
 	{#if meal.expanded}
-		<div class="dishes" transition:slide={{duration: SLIDE_DURATION_BY_CLICK}}>
+		<div class="dishes" transition:slide={{ duration: SLIDE_DURATION_BY_CLICK }}>
 			{#each meal.dishes as dish (dish)}
-				<DishSection {dish}/>
+				<DishSection {dish} />
 			{/each}
-		</div>	
+		</div>
 	{/if}
-	
 </div>
 
 <style>
 	.wrapper {
 		background-color: var(--cbg1);
 		margin-bottom: 1.6em;
-
 	}
 
 	.title {
@@ -111,5 +115,4 @@
 		gap: 10px;
 		margin: 0 auto;
 	}
-
 </style>

@@ -40,7 +40,6 @@
 	$: if (meals) {
 		sum = countDayMacro(meals);
 	}
-
 </script>
 
 Day {daysCount - index} <small>{day}</small>

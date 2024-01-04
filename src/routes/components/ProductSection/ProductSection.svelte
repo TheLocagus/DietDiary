@@ -1,100 +1,110 @@
 <script lang="ts">
-	import Modal from "../../../components/Modal/Modal.svelte";
-    import Pencil from 'svelte-material-icons/Pencil.svelte';
-    import Delete from 'svelte-material-icons/Delete.svelte';
-	import type { Product } from "../../types";
+	import Modal from '../../../components/Modal/Modal.svelte';
+	import Pencil from 'svelte-material-icons/Pencil.svelte';
+	import Delete from 'svelte-material-icons/Delete.svelte';
+	import type { Product } from '../../types';
+	import EditProductModal from '../../../components/Modal/EditProductModal.svelte';
 
-    export let product: Product;
+	export let product: Product;
 
-    let dialog: HTMLDialogElement;
-
+	let dialog: HTMLDialogElement;
+	let editDialog: HTMLDialogElement;
 </script>
 
 <div class="product">
-    <div class="product-header">
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div class="title" on:click={() => dialog.showModal()}>{product.productName} ({product.amount}g)</div>
-        <div class="product-actions">
-            <span role="button">
-                <Pencil class='edit-button'/>
-            </span>
-            <span role="button">
-                <Delete class='delete-button'/>
-            </span>        
-        </div>
-    </div>
-    <div class="values">
-        <div><span>B:</span> {product.proteins}g</div>
-        <div><span>W:</span> {product.carbo}g</div>
-        <div><span>T:</span> {product.fats}g</div>
-        <div><span>K:</span> {product.calories}kcal</div>
-    </div>
-    <div class="border"/>
-
+	<div class="product-header">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<div class="title" on:click={() => dialog.showModal()}>
+			{product.productName} ({product.amount}g)
+		</div>
+		<div class="product-actions">
+			<button
+				on:click={() => {
+					editDialog.showModal();
+				}}
+			>
+				<Pencil class="edit-button" />
+			</button>
+			<button>
+				<Delete class="delete-button" />
+			</button>
+		</div>
+	</div>
+	<div class="values">
+		<div><span>B:</span> {product.proteins}g</div>
+		<div><span>W:</span> {product.carbo}g</div>
+		<div><span>T:</span> {product.fats}g</div>
+		<div><span>K:</span> {product.calories}kcal</div>
+	</div>
+	<div class="border" />
 </div>
 
-<Modal bind:dialog/>
+<Modal bind:dialog />
+<EditProductModal bind:dialog={editDialog} />
 
 <style>
-    .product {
-        display: flex;
-        flex-direction: column;
-        flex-basis: 33%;
-        margin-bottom: 16px;
-        gap: 5px;
-        flex-grow: 1;
-    }
+	.product {
+		display: flex;
+		flex-direction: column;
+		flex-basis: 33%;
+		margin-bottom: 16px;
+		gap: 5px;
+		flex-grow: 1;
+	}
 
-    .product-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .title {
-        font-size: 0.8em;
-    }
+	.product-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 
-    .border {
-        height: 1px;
-        width: 80%;
-        margin: 5px auto 0;
-        background-color: var(--cbg3);
-    }
+	.title {
+		font-size: 0.8em;
+	}
 
-    .values {
-        display: flex;
-        font-size: 0.8em;
-        gap: 0.7em;
-    }
+	.border {
+		height: 1px;
+		width: 80%;
+		margin: 5px auto 0;
+		background-color: var(--cbg3);
+	}
 
-    .values div {
-        padding: 4px 0
-    }
+	.values {
+		display: flex;
+		font-size: 0.8em;
+		gap: 0.7em;
+	}
 
-    .values div span {
-        font-size: 0.7em;
-        font-weight: 400;
-    }
+	.values div {
+		padding: 4px 0;
+	}
 
-    .values div {
-        font-weight: 700;
-    }
+	.values div span {
+		font-size: 0.7em;
+		font-weight: 400;
+	}
 
-    span :global(svg) {
-        vertical-align: middle;
-    }
+	.values div {
+		font-weight: 700;
+	}
 
-    span[role="button"]{
-        cursor: pointer;
-    }
+	button :global(svg) {
+		height: 1.3em;
+		width: 1.3em;
+		vertical-align: middle;
+	}
 
-    :global(.edit-button){
-        color: var(--edit-btn);
-    }
+	button {
+		background-color: transparent;
+		cursor: pointer;
+	}
 
-    :global(.delete-button) {
-        color: var(--delete-btn);
-    }
+	:global(.edit-button) {
+		color: var(--edit-btn);
+	}
+
+	:global(.delete-button) {
+		color: var(--delete-btn);
+	}
 </style>
