@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Modal from '../../../components/Modal/Modal.svelte';
 	import Pencil from 'svelte-material-icons/Pencil.svelte';
 	import Delete from 'svelte-material-icons/Delete.svelte';
 	import type { Product } from '../../types';
@@ -7,15 +6,13 @@
 
 	export let product: Product;
 
-	let dialog: HTMLDialogElement;
 	let editDialog: HTMLDialogElement;
+	$: console.log(editDialog);
 </script>
 
 <div class="product">
 	<div class="product-header">
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div class="title" on:click={() => dialog.showModal()}>
+		<div class="title">
 			{product.productName} ({product.amount}g)
 		</div>
 		<div class="product-actions">
@@ -40,8 +37,18 @@
 	<div class="border" />
 </div>
 
-<Modal bind:dialog />
-<EditProductModal bind:dialog={editDialog} />
+<EditProductModal
+	bind:dialog={editDialog}
+	values={{
+		proteins: product.proteins,
+		carbo: product.carbo,
+		fats: product.fats,
+		calories: product.calories,
+		productName: product.productName,
+		amount: product.amount
+	}}
+	title={'Edytuj'}
+/>
 
 <style>
 	.product {
