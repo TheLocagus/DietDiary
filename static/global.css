@@ -2,6 +2,16 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: Lato, Helvetica, sans-serif;
+}
+
+button {
+	outline: none;
+	border: none;
+}
+
+input {
+	outline: none;
 }
 
 html {
@@ -12,4 +22,9 @@ html {
 	--supp-bgc-light: #2dc24d;
 	--supp-bgc-dark: #409172;
 	--supp-fc: white;
+	--edit-btn: #ffd500;
+	--delete-btn: #d34141;
+	--aside-width: 12%;
+	--between-sections-margin: 10px;
+	--layout-margin: 10px;
 }

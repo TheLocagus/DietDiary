@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import type { Dish, Meal, Product } from './types';
+	import type { AggregatedMeals, Dish, Meal, Product } from './types';
+	import { dates } from './utils';
+	import { getTimestamp, parseTimestampFromMsToDate } from '../utils/dates.utils';
+	import Github from 'svelte-material-icons/Github.svelte';
 
 	let isAddMealModalOpen = false;
 
@@ -24,8 +27,10 @@
 	};
 
 	const meals: Writable<Meal[]> = writable([]);
+	const aggregatedMeals: Writable<AggregatedMeals> = writable({});
 
 	$: setContext('mealsContext', $meals);
+	setContext('aggregatedMealsContext', $aggregatedMeals);
 
 	const saveData = async () => {
 		const req = await fetch('.', {
@@ -44,7 +49,7 @@
 	};
 
 	const loadData = async () => {
-		const req = await fetch('.', {
+		const req = await fetch('/', {
 			method: 'GET'
 		});
 
@@ -103,7 +108,54 @@
 		$meals[$meals.length - 1].dishes[lastMeal.dishes.length - 1] = lastDish;
 		$meals = $meals;
 	};
+
+	const getAllDates = (meal: Meal) => {
+		const dateString = parseTimestampFromMsToDate(meal.date);
+		dates.update((date) => date.add(dateString));
+
+		return $dates;
+	};
+
+	const getAggregatedMeals = (meals: Meal[]): AggregatedMeals => {
+		let mealsAggregatedByDate: AggregatedMeals = {};
+
+		meals.forEach((meal) => {
+			dates.set(getAllDates(meal));
+		});
+
+		$dates.forEach((date) => {
+			let mealsWithSameDate = meals.filter(
+				(mealToFilter) => parseTimestampFromMsToDate(mealToFilter.date) === date
+			);
+
+			const agregatedToParse = Object.entries(mealsAggregatedByDate);
+			agregatedToParse.push([getTimestamp(date), mealsWithSameDate]);
+			mealsAggregatedByDate = Object.fromEntries(agregatedToParse);
+		});
+		return mealsAggregatedByDate;
+	};
+
+	$: if (meals) {
+		// totalValues = getTotalValues(meals);
+		aggregatedMeals.set(getAggregatedMeals($meals));
+		setContext('aggregatedMealsContext', $aggregatedMeals);
+	}
 </script>
+
+<header>
+	<div class="name">
+		<span>Meal diary</span>
+	</div>
+	<div class="links">
+		<a href="/">Oblicz kalorie</a>
+		<a href="/diary/general">Historia</a>
+	</div>
+	<div class="additional-actions">
+		<a target="_blank" href="https://github.com/TheLocagus/DietDiary">
+			<Github />
+		</a>
+	</div>
+</header>
 
 <section class="data-buttons">
 	<button disabled={$meals.length === 0} on:click={saveData}>Zapisz</button>
@@ -129,10 +181,65 @@
 	<slot />
 {/key}
 
-
 <style>
 	:global(body) {
 		background-color: var(--cbg1);
+	}
+
+	header {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		background-color: var(--cbg3);
+		height: 40px;
+		font-size: 0.85em;
+	}
+
+	header .name {
+		margin: 0 var(--between-sections-margin);
+		flex-basis: calc(var(--aside-width) - calc(var(--layout-margin) * 2));
+		text-align: center;
+		font-style: italic;
+	}
+
+	header .links {
+		display: flex;
+		flex-grow: 1;
+		height: 100%;
+		margin: 0 var(--between-sections-margin);
+	}
+
+	header .links a {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		padding-right: 15px;
+		background-color: transparent;
+		border: 1px solid transparent;
+		text-decoration: none;
+		color: inherit;
+		cursor: pointer;
+		transition: 0.2s;
+	}
+
+	header .links a:hover {
+		opacity: 0.6;
+	}
+
+	header .additional-actions {
+		padding: 0 20px;
+	}
+
+	header .additional-actions a {
+		display: block;
+		width: 2em;
+		height: 2em;
+		color: inherit;
+	}
+
+	header .additional-actions :global(svg) {
+		width: 2em;
+		height: 2em;
 	}
 
 	.inputs {
@@ -142,6 +249,4 @@
 		width: 200px;
 		margin-bottom: 200px;
 	}
-
-	
 </style>
