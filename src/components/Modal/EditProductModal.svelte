@@ -1,6 +1,10 @@
 <script lang="ts">
+	import FormInput from '../FormInput/FormInput.svelte';
+	import FormRow from '../FormRow/FormRow.svelte';
+	import Switch from '../Switch/Switch.svelte';
 	import Modal from './Modal.svelte';
 	export let dialog: HTMLDialogElement;
+	export let title: string;
 	export let values: {
 		proteins: number;
 		carbo: number;
@@ -9,90 +13,136 @@
 		productName: string;
 		amount: number;
 	};
-	export let title: string;
+
+	//TODO: disable save button when any error exists
 
 	let isFullEditActive = false;
+	const valuesMultiplier = values.amount / 100;
 
-	$: console.log(isFullEditActive);
+	const baseValues = {
+		proteins: values.proteins / valuesMultiplier,
+		carbo: values.carbo / valuesMultiplier,
+		fats: values.fats / valuesMultiplier,
+		calories: values.calories / valuesMultiplier,
+	}
+
+	const calculateMakroBasedOnAmount = () => {
+		const newMultiplier = values.amount / 100;
+
+		values.proteins = baseValues.proteins * newMultiplier
+		values.carbo = baseValues.carbo * newMultiplier
+		values.fats = baseValues.fats * newMultiplier
+		values.calories = baseValues.calories * newMultiplier
+	}
+
+	const nameValidationLive = (value: string) => {
+		return '';
+	};
+
+	const nameValidationOnFocusOut = (value: string): string => {
+		if (!value.length) return 'Nazwa produktu nie może być pusta';
+		return '';
+	};
+
+	const productValidationLive = (value: string): string => {
+		if (isNaN(Number(value))) return 'Wartość powinna być liczbą';
+		return '';
+	};
+
+	const productValidationOnFocusOut = (value: string) => {
+		if (!value.length) return 'Wartość nie może być pusta';
+		return '';
+	};
+
+	$: if(!isFullEditActive && values.amount){
+		console.log('siema')
+		calculateMakroBasedOnAmount();
+	}
 </script>
 
 <Modal bind:dialog {title}>
 	<form>
-		<div class="row">
-			<label for="product-name-input">Nazwa</label>
-			<div>
-				<input id="product-name-input" type="text" value={values.productName} />
-				<span class="error-message"></span>
-			</div>
-		</div>
-		<div class="row">
-			<span
-				role="button"
-				tabindex="0"
-				on:click={() => (isFullEditActive = !isFullEditActive)}
-				on:keydown={(e) => {
-					if (e.key === 'Enter') {
-						isFullEditActive = !isFullEditActive;
-					}
-				}}>Pełna edycja</span
-			>
-			<div>
-				<!-- <input id="product-data-switch" type="checkbox" value={isFullEditActive} on:change={() => isFullEditActive = !isFullEditActive}/> -->
-				<button
-					id="product-data-switch"
-					class:active={isFullEditActive}
-					on:click={() => (isFullEditActive = !isFullEditActive)}
-				>
-					<span class="circle" class:active={isFullEditActive}></span>
-				</button>
-				<span class="error-message"></span>
-			</div>
-		</div>
-		<div class="row">
-			<label for="proteins-input">Białko</label>
-			<div>
-				<input
-					id="proteins-input"
-					type="text"
-					value={values.proteins}
-					disabled={!isFullEditActive}
-				/>
-				<span class="error-message"></span>
-			</div>
-		</div>
-		<div class="row">
-			<label for="carbo-input">Węglowodany</label>
-			<div>
-				<input id="carbo-input" type="text" value={values.carbo} disabled={!isFullEditActive} />
-				<span class="error-message"></span>
-			</div>
-		</div>
-		<div class="row">
-			<label for="fats-input">Tłuszcze</label>
-			<div>
-				<input id="fats-input" type="text" value={values.fats} disabled={!isFullEditActive} />
-				<span class="error-message"></span>
-			</div>
-		</div>
-		<div class="row">
-			<label for="calories-input">Kalorie</label>
-			<div>
-				<input
-					id="calories-input"
-					type="text"
-					value={values.calories}
-					disabled={!isFullEditActive}
-				/>
-				<span class="error-message"></span>
-			</div>
-		</div>
-		<div class="row">
-			<label for="amount-input">Ilość</label>
-			<div>
-				<input id="amount-input" type="text" value={values.amount} />
-				<span class="error-message"></span>
-			</div>
-		</div>
+		<FormRow>
+			<FormInput
+				id={'product-name-input'}
+				value={values.productName}
+				label={'Nazwa'}
+				onFocusOutValidation={nameValidationOnFocusOut}
+				onKeyUpValidation={nameValidationLive}
+				on:update={({ detail }) => {
+					values.productName = detail.productName;
+				}}
+			/>
+		</FormRow>
+		<FormRow customMargin={'0 0 12px'}>
+			<Switch id={'product-data-switch'} label={'Pełna edycja'} bind:active={isFullEditActive} />
+		</FormRow>
+		{#key isFullEditActive}
+		<FormRow>
+			<FormInput
+				id={'proteins-input'}
+				value={values.proteins}
+				label={'Białko'}
+				disabled={!isFullEditActive}
+				onFocusOutValidation={productValidationOnFocusOut}
+				onKeyUpValidation={productValidationLive}
+				on:update={({ detail }) => {
+					values.proteins = detail;
+				}}
+			/>
+		</FormRow>
+		<FormRow>
+			<FormInput
+				id={'carbo-input'}
+				value={values.carbo}
+				label={'Węglowodany'}
+				disabled={!isFullEditActive}
+				onFocusOutValidation={productValidationOnFocusOut}
+				onKeyUpValidation={productValidationLive}
+				on:update={({ detail }) => {
+					values.carbo = detail;
+				}}
+			/>
+		</FormRow>
+		<FormRow>
+			<FormInput
+				id={'fats-input'}
+				value={values.fats}
+				label={'Tłuszcze'}
+				disabled={!isFullEditActive}
+				onFocusOutValidation={productValidationOnFocusOut}
+				onKeyUpValidation={productValidationLive}
+				on:update={({ detail }) => {
+					values.fats = detail;
+				}}
+			/>
+		</FormRow>
+		<FormRow>
+			<FormInput
+				id={'calories-input'}
+				value={values.calories}
+				label={'Kalorie'}
+				disabled={!isFullEditActive}
+				onFocusOutValidation={productValidationOnFocusOut}
+				onKeyUpValidation={productValidationLive}
+				on:update={({ detail }) => {
+					values.calories = detail;
+				}}
+			/>
+		</FormRow>
+		{/key}
+		<FormRow>
+			<FormInput
+				id={'amount-input'}
+				value={values.amount}
+				label={'Ilość'}
+				onFocusOutValidation={productValidationOnFocusOut}
+				onKeyUpValidation={productValidationLive}
+				on:update={({ detail }) => {
+					values.amount = detail;
+				}}
+			/>
+		</FormRow>
 	</form>
 </Modal>
 
@@ -100,69 +150,5 @@
 	form {
 		display: flex;
 		flex-direction: column;
-	}
-
-	.row {
-		display: flex;
-		align-items: center;
-		margin: 10px 0;
-	}
-
-	label,
-	.row > span {
-		flex-basis: 50%;
-		font-size: 0.7em;
-		padding-left: 40px;
-		color: var(--supp-fc);
-	}
-
-	input {
-		padding: 7px;
-		font-size: 0.6em;
-		background-color: var(--cbg3);
-		border: 1px solid var(--supp-bgc-light);
-		color: var(--supp-fc);
-		border-radius: 5px;
-	}
-
-	input:disabled {
-		background-color: var(--cbg2);
-		color: var(--cbg1);
-		cursor: not-allowed;
-	}
-
-	button {
-		padding: 12px;
-		width: 60px;
-		height: 20px;
-		border-radius: 20px;
-		position: relative;
-		background-color: var(--supp-bgc-dark);
-		border: 1px solid black;
-		transition: 0.4s;
-		cursor: pointer;
-	}
-
-	button.active {
-		background-color: var(--supp-bgc-light);
-	}
-
-	.circle {
-		margin: 0 2px;
-		position: absolute;
-		top: 50%;
-		left: 0;
-		transform: translateY(-50%);
-		display: block;
-		background-color: var(--cbg3);
-		border: 1px solid black;
-		height: 18px;
-		width: 18px;
-		border-radius: 50%;
-		transition: 0.4s;
-	}
-
-	.circle.active {
-		left: calc(100% - 20px - 2px);
 	}
 </style>

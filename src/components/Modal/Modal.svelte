@@ -3,8 +3,6 @@
 	export let dialog: HTMLDialogElement;
 	export let title: string;
 
-	console.log(dialog);
-
 	let divHeader: HTMLDivElement;
 </script>
 

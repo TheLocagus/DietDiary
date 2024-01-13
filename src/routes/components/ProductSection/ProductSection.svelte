@@ -7,7 +7,6 @@
 	export let product: Product;
 
 	let editDialog: HTMLDialogElement;
-	$: console.log(editDialog);
 </script>
 
 <div class="product">
