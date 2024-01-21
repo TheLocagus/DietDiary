@@ -3,6 +3,7 @@
 	import ProductSection from '../ProductSection/ProductSection.svelte';
 
 	export let dish: Dish;
+	export let mealId: string;
 
 	const getSummary = () => {
 		const summary = dish.products.reduce(
@@ -34,7 +35,7 @@
 	<h2>{dish.dishName}</h2>
 	<div class="products">
 		{#each dish.products as product}
-			<ProductSection {product} />
+			<ProductSection {product} dishId={dish.id} {mealId} />
 		{/each}
 	</div>
 	<div class="summary">

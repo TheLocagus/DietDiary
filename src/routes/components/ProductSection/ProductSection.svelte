@@ -5,6 +5,8 @@
 	import EditProductModal from '../../../components/Modal/EditProductModal.svelte';
 
 	export let product: Product;
+	export let dishId: string;
+	export let mealId: string;
 
 	let editDialog: HTMLDialogElement;
 </script>
@@ -38,7 +40,10 @@
 
 <EditProductModal
 	bind:dialog={editDialog}
+	{mealId}
+	{dishId}
 	values={{
+		id: product.id,
 		proteins: product.proteins,
 		carbo: product.carbo,
 		fats: product.fats,

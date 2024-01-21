@@ -2,6 +2,8 @@
 	import ExitIcon from 'svelte-material-icons/AlphaXCircleOutline.svelte';
 	export let dialog: HTMLDialogElement;
 	export let title: string;
+	export let saveDisabled = false;
+	export let save: () => void;
 
 	let divHeader: HTMLDivElement;
 </script>
@@ -26,7 +28,7 @@
 	</div>
 	<div class="actions">
 		<button>Anuluj</button>
-		<button>Zapisz</button>
+		<button class:disabled={saveDisabled} disabled={saveDisabled} on:click={save}>Zapisz</button>
 	</div>
 </dialog>
 
@@ -94,5 +96,12 @@
 
 	.actions button:hover {
 		background-color: var(--supp-bgc-light);
+	}
+
+	.actions button.disabled {
+		background-color: #bbb;
+		border: 1px solid #333;
+		color: black;
+		cursor: not-allowed;
 	}
 </style>

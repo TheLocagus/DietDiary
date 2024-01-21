@@ -55,7 +55,7 @@
 	{#if meal.expanded}
 		<div class="dishes" transition:slide={{ duration: SLIDE_DURATION_BY_CLICK }}>
 			{#each meal.dishes as dish (dish)}
-				<DishSection {dish} />
+				<DishSection {dish} mealId={meal.id.toString()} />
 			{/each}
 		</div>
 	{/if}

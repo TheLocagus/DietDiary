@@ -29,7 +29,7 @@
 	const meals: Writable<Meal[]> = writable([]);
 	const aggregatedMeals: Writable<AggregatedMeals> = writable({});
 
-	$: setContext('mealsContext', $meals);
+	$: setContext('mealsContext', meals);
 	setContext('aggregatedMealsContext', $aggregatedMeals);
 
 	const saveData = async () => {
@@ -139,6 +139,10 @@
 		// totalValues = getTotalValues(meals);
 		aggregatedMeals.set(getAggregatedMeals($meals));
 		setContext('aggregatedMealsContext', $aggregatedMeals);
+	}
+
+	$: if ($meals) {
+		console.log('siemanko');
 	}
 </script>
 

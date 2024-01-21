@@ -1,44 +1,26 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, tick } from 'svelte';
+	import type { MakroValidation } from '../Modal/modal';
 
 	export let id: string;
 	export let value: string | number;
 	export let label: string;
+	export let field: keyof MakroValidation;
 	export let disabled = false;
-	export let onFocusOutValidation: (value: string) => string;
-	export let onKeyUpValidation: (value: string) => string;
+	export let errorMessage: string;
+	export let onKeyUpValidation: (value: string, field: keyof MakroValidation) => void;
 
 	const dispatch = createEventDispatcher();
 
-	let errorMessages = {
-		onFocusOut: '',
-		onKeyUp: ''
-	};
-
-	const validate = (
-		e: Event,
-		method: (value: string) => string,
-		type: 'onFocusOut' | 'onKeyUp'
-	) => {
+	const validateKeyUp = async (e: KeyboardEvent) => {
 		const value = (e.target as HTMLInputElement).value;
-		errorMessages[`${type}`] = method(value);
-	};
-
-	const updateForm = (e: Event) => {
-			const errors = Object.values(errorMessages).filter((err) => err);
-			if (errors.length) return;
-
-			const value = (e.target as HTMLInputElement).value;
+		console.log(value);
+		onKeyUpValidation(value, field);
+		await tick();
+		if (!errorMessage) {
 			dispatch('update', value);
 		}
-
-	$: if (disabled) {
-		errorMessages = {
-			onFocusOut: '',
-			onKeyUp: ''
-		};
-		value = value;
-	}
+	};
 </script>
 
 <label for={id}>{label}</label>
@@ -48,14 +30,12 @@
 		type="text"
 		{value}
 		{disabled}
-		class:error={Object.values(errorMessages).filter((mess) => mess).length}
-		on:focusout={(e) => validate(e, onFocusOutValidation, 'onFocusOut')}
-		on:keyup={(e) => validate(e, onKeyUpValidation, 'onKeyUp')}
-		on:change={(e) => updateForm(e)}
+		class:error={errorMessage}
+		on:keyup={(e) => validateKeyUp(e)}
 	/>
-	{#each Object.values(errorMessages) as error}
-		<span class="error-message">{error}</span>
-	{/each}
+	{#if errorMessage}
+		<span class="error-message">{errorMessage}</span>
+	{/if}
 </div>
 
 <style>
